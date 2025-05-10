@@ -1,0 +1,89 @@
+plugins {
+    id 'groovy'
+    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id "io.micronaut.application" version "4.5.3"
+    id "io.micronaut.aot" version "4.5.3"
+}
+
+group = 'me.fivi'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    gradlePluginPortal()
+    mavenCentral()
+    maven { url 'https://repo.micronaut.io' }
+}
+
+dependencies {
+    implementation 'org.apache.groovy:groovy:4.0.14'
+
+    // Micronaut Core
+    implementation("io.micronaut:micronaut-inject")
+    implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-http-server-netty")
+    implementation("io.micronaut:micronaut-runtime")
+
+    // Security & JWT
+    implementation("io.micronaut.security:micronaut-security-jwt")
+    implementation("io.micronaut.security:micronaut-security-annotations")
+    implementation("io.micronaut:micronaut-validation:3.10.4")
+
+    // Database
+    implementation("io.micronaut.data:micronaut-data-jdbc")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+    runtimeOnly("org.postgresql:postgresql")
+    implementation("io.micronaut.flyway:micronaut-flyway")
+
+    // Cache
+    implementation("io.micronaut.cache:micronaut-cache-caffeine")
+
+    // Firebase
+    implementation("com.google.firebase:firebase-admin:9.1.1")
+
+    // Logging
+    runtimeOnly("ch.qos.logback:logback-classic")
+
+    // Jackson for JSON
+    implementation("io.micronaut:micronaut-jackson-databind")
+
+    // BCrypt for password hashing
+    implementation("at.favre.lib:bcrypt:0.9.0")
+
+    // Testing
+    testImplementation("io.micronaut:micronaut-http-client")
+    testImplementation("org.spockframework:spock-core")
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+application {
+    mainClass.set("com.mobileapp.Application")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+graalvmNative.toolchainDetection = false
+
+micronaut {
+    runtime("netty")
+    testRuntime("spock2")
+    processing {
+        incremental(true)
+        annotations("com.mobileapp.*")
+    }
+    aot {
+        // Configure the build time optimizations
+        optimizeServiceLoading = true
+        convertYamlToJava = true
+        precomputeOperations = true
+        cacheEnvironment = true
+    }
+}
