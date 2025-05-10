@@ -46,9 +46,7 @@ class AuthController {
     HttpResponse<ApiResponse<Void>> signUp(@Body @Valid SignUpRequest request) {
         Account account = accountService.createAccount(request)
 
-        return HttpResponse.created(
-                ApiResponse.success("Account created successfully. Please check your email to confirm your account.")
-        )
+        return HttpResponse.created(ApiResponse.success("Account created successfully. Please check your email to confirm your account."))
     }
 
     @Post("/signin")
@@ -56,9 +54,7 @@ class AuthController {
     HttpResponse<ApiResponse<AuthResponse>> signIn(@Body @Valid SignInRequest request) {
         AuthResponse authResponse = authService.authenticate(request)
 
-        return HttpResponse.ok(
-                ApiResponse.success("Authentication successful", authResponse)
-        )
+        return HttpResponse.ok(ApiResponse.success("Authentication successful", authResponse))
     }
 
     @Post("/refresh")
@@ -117,9 +113,7 @@ class AuthController {
     HttpResponse<ApiResponse<Void>> confirmEmail(@Body @Valid EmailConfirmationRequest request) {
         Account account = accountService.confirmEmail(request.token)
 
-        return HttpResponse.ok(
-                ApiResponse.success("Email confirmed successfully")
-        )
+        return HttpResponse.ok(ApiResponse.success("Email confirmed successfully"))
     }
 
     @Post("/change-password")
@@ -141,9 +135,7 @@ class AuthController {
         // Invalidate cache entry for the user
         authService.invalidateAuthCache(account.email)
 
-        return HttpResponse.ok(
-                ApiResponse.success("Password changed successfully")
-        )
+        return HttpResponse.ok(ApiResponse.success("Password changed successfully"))
     }
 
     @Get("/check-status")
@@ -155,8 +147,6 @@ class AuthController {
                 attributes: authentication.attributes
         ]
 
-        return HttpResponse.ok(
-                ApiResponse.success("Authentication valid", response)
-        )
+        return HttpResponse.ok(ApiResponse.success("Authentication valid", response))
     }
 }

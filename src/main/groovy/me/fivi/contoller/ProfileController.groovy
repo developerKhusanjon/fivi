@@ -50,9 +50,7 @@ class ProfileController {
         Profile profile = profileService.getProfileByAccountId(accountId)
         ProfileResponse response = profileService.mapToProfileResponse(profile)
 
-        return HttpResponse.ok(
-                ApiResponse.success("Profile retrieved successfully", response)
-        )
+        return HttpResponse.ok(ApiResponse.success("Profile retrieved successfully", response))
     }
 
     @Put("/me")
@@ -61,9 +59,7 @@ class ProfileController {
         Long accountId = Long.valueOf(authentication.name)
         ProfileResponse updatedProfile = profileService.updateProfile(accountId, request)
 
-        return HttpResponse.ok(
-                ApiResponse.success("Profile updated successfully", updatedProfile)
-        )
+        return HttpResponse.ok(ApiResponse.success("Profile updated successfully", updatedProfile))
     }
 
     @Post(value = "/me/avatar", consumes = MediaType.MULTIPART_FORM_DATA)

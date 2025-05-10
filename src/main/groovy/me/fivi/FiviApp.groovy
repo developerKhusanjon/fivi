@@ -4,10 +4,10 @@ import io.micronaut.runtime.Micronaut
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class Application {
+class FiviApp {
     static void main(String[] args) {
         Micronaut.build(args)
-                .packages("com.mobileapp")
+                .packages("me.fivi")
                 .start()
     }
 }
