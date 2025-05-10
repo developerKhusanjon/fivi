@@ -29,6 +29,9 @@ dependencies {
     implementation("io.micronaut.security:micronaut-security-annotations")
     implementation("io.micronaut:micronaut-validation:3.10.4")
 
+    // Reactor
+    implementation("io.projectreactor:reactor-core")
+
     // Database
     implementation("io.micronaut.data:micronaut-data-jdbc")
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
