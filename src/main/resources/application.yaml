@@ -1,0 +1,70 @@
+micronaut:
+  application:
+    name: fivi
+  server:
+    port: 8080
+    cors:
+      enabled: true
+
+  security:
+    authentication: bearer
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: "${JWT_SECRET:pleaseChangeThisSecretInProduction}"
+              jws-algorithm: HS256
+        generator:
+          access-token:
+            expiration: 3600  # 1 hour
+          refresh-token:
+            secret: "${REFRESH_TOKEN_SECRET:anotherSecretForRefreshTokens}"
+            expiration: 2592000  # 30 days
+
+datasources:
+  default:
+    url: ${JDBC_URL:`jdbc:postgresql://localhost:5432/fivitestdb`}
+    username: ${JDBC_USER:postgres}
+    password: ${JDBC_PASSWORD:postgres}
+    driverClassName: org.postgresql.Driver
+    dialect: POSTGRES
+    schema-generate: NONE
+    maximum-pool-size: 5
+    minimum-idle: 1
+    connection-timeout: 3000
+    idle-timeout: 600000
+
+flyway:
+  datasources:
+    default:
+      enabled: true
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: validate
+        show_sql: false
+
+caffeine:
+  caches:
+    auth-cache:
+      maximum-size: 1000
+      expire-after-write: 10m
+
+firebase:
+  credentials-file: ${FIREBASE_CREDENTIALS_FILE:firebase-credentials.json}
+  project-id: ${FIREBASE_PROJECT_ID:your-project-id}
+
+email:
+  from: noreply@yourmobileapp.com
+  confirmation:
+    url: https://yourmobileapp.com/confirm-email
+    expiration: 86400  # 24 hours
+
+logging:
+  level:
+    io.micronaut: INFO
+    me.fivi: DEBUG
